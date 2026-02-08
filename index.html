@@ -1,511 +1,572 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Batch Masikhay 2026 — Graduation Payment Hub</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-        
-        :root {
-            --maroon-900: #4a0e0e;
-            --maroon-800: #6b1515;
-            --maroon-700: #7f1d1d;
-            --maroon-600: #991b1b;
-            --maroon-500: #b91c1c;
-            --maroon-400: #dc2626;
-            --maroon-100: #fee2e2;
-            --maroon-50: #fef2f2;
-            --gold-500: #eab308;
-            --gold-400: #facc15;
-            --gold-300: #fde047;
-            --cream: #fdfbf7;
-            --gray-900: #111827;
-            --gray-700: #374151;
-            --gray-600: #4b5563;
-            --gray-100: #f3f4f6;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #f5f0eb;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        
-        .poster {
-            width: 100%;
-            max-width: 480px;
-            background: linear-gradient(180deg, var(--maroon-800) 0%, var(--maroon-900) 100%);
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-        
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, var(--maroon-700) 0%, var(--maroon-800) 100%);
-            padding: 32px 24px 28px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
-            pointer-events: none;
-        }
-        
-        .badge {
-            display: inline-block;
-            background: var(--gold-400);
-            color: var(--maroon-900);
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 6px 14px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 16px;
-        }
-        
-        .header h1 {
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        
-        .header .subtitle {
-            color: var(--gold-300);
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        
-        .icon-row {
-            margin-top: 20px;
-            font-size: 2.5rem;
-        }
-        
-        /* Main Content */
-        .content {
-            padding: 28px 24px;
-        }
-        
-        /* Amount Card */
-        .amount-card {
-            background: white;
-            border-radius: 16px;
-            padding: 24px;
-            text-align: center;
-            margin-bottom: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .amount-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--gold-400), var(--gold-500));
-        }
-        
-        .amount-label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--gray-600);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
-        }
-        
-        .amount-value {
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--maroon-700);
-            line-height: 1;
-        }
-        
-        .amount-note {
-            font-size: 0.85rem;
-            color: var(--gray-600);
-            margin-top: 8px;
-        }
-        
-        /* Payment Scheme */
-        .scheme-card {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .scheme-title {
-            color: var(--gold-300);
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-        
-        .scheme-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 6px;
-        }
-        
-        .month-box {
-            background: rgba(255,255,255,0.1);
-            border-radius: 8px;
-            padding: 10px 4px;
-            text-align: center;
-        }
-        
-        .month-box .month {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.65rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .month-box .amount {
-            color: white;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-top: 2px;
-        }
-        
-        .deadline-note {
-            color: rgba(255,255,255,0.6);
-            font-size: 0.75rem;
-            margin-top: 12px;
-            text-align: center;
-        }
-        
-        /* Bank Details */
-        .bank-card {
-            background: var(--cream);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .bank-title {
-            color: var(--maroon-700);
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .bank-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px dashed rgba(0,0,0,0.1);
-        }
-        
-        .bank-row:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-        
-        .bank-row .label {
-            color: var(--gray-600);
-            font-size: 0.8rem;
-        }
-        
-        .bank-row .value {
-            color: var(--gray-900);
-            font-size: 0.9rem;
-            font-weight: 700;
-            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-        }
-        
-        .bank-row .value.name {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.85rem;
-        }
-        
-        .alt-payment {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(0,0,0,0.08);
-            text-align: center;
-            color: var(--gray-600);
-            font-size: 0.75rem;
-        }
-        
-        /* Links Section */
-        .links-section {
-            margin-bottom: 20px;
-        }
-        
-        .links-title {
-            color: var(--gold-300);
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-        
-        .link-card {
-            background: rgba(255,255,255,0.95);
-            border-radius: 10px;
-            padding: 14px 16px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-        
-        .link-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            border-color: var(--gold-400);
-        }
-        
-        .link-card:active {
-            transform: translateY(0);
-        }
-        
-        .link-card:last-child {
-            margin-bottom: 0;
-        }
-        
-        .link-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            flex-shrink: 0;
-        }
-        
-        .link-icon.proposal { background: #dbeafe; }
-        .link-icon.tracker { background: #dcfce7; }
-        .link-icon.form { background: #fef3c7; }
-        
-        .link-info {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .link-arrow {
-            color: var(--maroon-400);
-            font-size: 1.2rem;
-            opacity: 0.5;
-            transition: all 0.2s ease;
-        }
-        
-        .link-card:hover .link-arrow {
-            opacity: 1;
-            transform: translateX(4px);
-        }
-        
-        .link-label {
-            font-size: 0.75rem;
-            color: var(--gray-600);
-            font-weight: 500;
-        }
-        
-        .link-url {
-            font-size: 0.7rem;
-            color: var(--maroon-600);
-            font-weight: 600;
-            word-break: break-all;
-            line-height: 1.4;
-        }
-        
-        /* QR placeholder note */
-        .qr-note {
-            text-align: center;
-            color: rgba(255,255,255,0.5);
-            font-size: 0.7rem;
-            margin-top: 16px;
-            font-style: italic;
-        }
-        
-        /* Footer */
-        .footer {
-            background: rgba(0,0,0,0.2);
-            padding: 20px 24px;
-            text-align: center;
-        }
-        
-        .footer-tagline {
-            color: var(--gold-400);
-            font-size: 0.9rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        
-        .footer-batch {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.8rem;
-        }
-        
-        .footer-date {
-            color: rgba(255,255,255,0.4);
-            font-size: 0.7rem;
-            margin-top: 8px;
-        }
-        
-        /* Print styles */
-        @media print {
-            body {
-                background: white;
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Batch Masikhay 2026 — Graduation Payment Hub</title>
+        <link
+            rel="icon"
+            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>"
+        />
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+            :root {
+                --maroon-900: #4a0e0e;
+                --maroon-800: #6b1515;
+                --maroon-700: #7f1d1d;
+                --maroon-600: #991b1b;
+                --maroon-500: #b91c1c;
+                --maroon-400: #dc2626;
+                --maroon-100: #fee2e2;
+                --maroon-50: #fef2f2;
+                --gold-500: #eab308;
+                --gold-400: #facc15;
+                --gold-300: #fde047;
+                --cream: #fdfbf7;
+                --gray-900: #111827;
+                --gray-700: #374151;
+                --gray-600: #4b5563;
+                --gray-100: #f3f4f6;
+            }
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
                 padding: 0;
             }
-            
-            .poster {
-                box-shadow: none;
-                max-width: 100%;
+
+            body {
+                font-family:
+                    "Inter",
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    sans-serif;
+                background: #f5f0eb;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
             }
-        }
-    </style>
-</head>
-<body>
-    <div class="poster">
-        <div class="header">
-            <div class="badge">📢 Action Required</div>
-            <h1>Batch Masikhay 2026</h1>
-            <p class="subtitle">Graduation Payment</p>
-            <div class="icon-row">🎓</div>
+
+            .poster {
+                width: 100%;
+                max-width: 480px;
+                background: linear-gradient(
+                    180deg,
+                    var(--maroon-800) 0%,
+                    var(--maroon-900) 100%
+                );
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            }
+
+            /* Header */
+            .header {
+                background: linear-gradient(
+                    135deg,
+                    var(--maroon-700) 0%,
+                    var(--maroon-800) 100%
+                );
+                padding: 32px 24px 28px;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .header::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(
+                    circle,
+                    rgba(255, 255, 255, 0.05) 0%,
+                    transparent 60%
+                );
+                pointer-events: none;
+            }
+
+            .badge {
+                display: inline-block;
+                background: var(--gold-400);
+                color: var(--maroon-900);
+                font-size: 0.7rem;
+                font-weight: 700;
+                padding: 6px 14px;
+                border-radius: 20px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 16px;
+            }
+
+            .header h1 {
+                color: white;
+                font-size: 1.5rem;
+                font-weight: 800;
+                margin-bottom: 4px;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+            }
+
+            .header .subtitle {
+                color: var(--gold-300);
+                font-size: 1rem;
+                font-weight: 600;
+            }
+
+            .icon-row {
+                margin-top: 20px;
+                font-size: 2.5rem;
+            }
+
+            /* Main Content */
+            .content {
+                padding: 28px 24px;
+            }
+
+            /* Amount Card */
+            .amount-card {
+                background: white;
+                border-radius: 16px;
+                padding: 24px;
+                text-align: center;
+                margin-bottom: 20px;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .amount-card::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 4px;
+                background: linear-gradient(
+                    90deg,
+                    var(--gold-400),
+                    var(--gold-500)
+                );
+            }
+
+            .amount-label {
+                font-size: 0.8rem;
+                font-weight: 600;
+                color: var(--gray-600);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 8px;
+            }
+
+            .amount-value {
+                font-size: 3rem;
+                font-weight: 900;
+                color: var(--maroon-700);
+                line-height: 1;
+            }
+
+            .amount-note {
+                font-size: 0.85rem;
+                color: var(--gray-600);
+                margin-top: 8px;
+            }
+
+            /* Payment Scheme */
+            .scheme-card {
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                border-radius: 12px;
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            .scheme-title {
+                color: var(--gold-300);
+                font-size: 0.75rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 12px;
+            }
+
+            .scheme-grid {
+                display: grid;
+                grid-template-columns: repeat(6, 1fr);
+                gap: 6px;
+            }
+
+            .month-box {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                padding: 10px 4px;
+                text-align: center;
+            }
+
+            .month-box .month {
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 0.65rem;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+
+            .month-box .amount {
+                color: white;
+                font-size: 0.8rem;
+                font-weight: 700;
+                margin-top: 2px;
+            }
+
+            .deadline-note {
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 0.75rem;
+                margin-top: 12px;
+                text-align: center;
+            }
+
+            /* Bank Details */
+            .bank-card {
+                background: var(--cream);
+                border-radius: 12px;
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            .bank-title {
+                color: var(--maroon-700);
+                font-size: 0.75rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .bank-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px 0;
+                border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+            }
+
+            .bank-row:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .bank-row .label {
+                color: var(--gray-600);
+                font-size: 0.8rem;
+            }
+
+            .bank-row .value {
+                color: var(--gray-900);
+                font-size: 0.9rem;
+                font-weight: 700;
+                font-family: "SF Mono", "Monaco", "Consolas", monospace;
+            }
+
+            .bank-row .value.name {
+                font-family: "Inter", sans-serif;
+                font-size: 0.85rem;
+            }
+
+            .alt-payment {
+                margin-top: 12px;
+                padding-top: 12px;
+                border-top: 1px solid rgba(0, 0, 0, 0.08);
+                text-align: center;
+                color: var(--gray-600);
+                font-size: 0.75rem;
+            }
+
+            /* Links Section */
+            .links-section {
+                margin-bottom: 20px;
+            }
+
+            .links-title {
+                color: var(--gold-300);
+                font-size: 0.75rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 12px;
+            }
+
+            .link-card {
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 10px;
+                padding: 14px 16px;
+                margin-bottom: 10px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                cursor: pointer;
+                border: 2px solid transparent;
+            }
+
+            .link-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                border-color: var(--gold-400);
+            }
+
+            .link-card:active {
+                transform: translateY(0);
+            }
+
+            .link-card:last-child {
+                margin-bottom: 0;
+            }
+
+            .link-icon {
+                width: 36px;
+                height: 36px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.1rem;
+                flex-shrink: 0;
+            }
+
+            .link-icon.proposal {
+                background: #dbeafe;
+            }
+            .link-icon.tracker {
+                background: #dcfce7;
+            }
+            .link-icon.form {
+                background: #fef3c7;
+            }
+
+            .link-info {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .link-arrow {
+                color: var(--maroon-400);
+                font-size: 1.2rem;
+                opacity: 0.5;
+                transition: all 0.2s ease;
+            }
+
+            .link-card:hover .link-arrow {
+                opacity: 1;
+                transform: translateX(4px);
+            }
+
+            .link-label {
+                font-size: 0.75rem;
+                color: var(--gray-600);
+                font-weight: 500;
+            }
+
+            .link-url {
+                font-size: 0.7rem;
+                color: var(--maroon-600);
+                font-weight: 600;
+                word-break: break-all;
+                line-height: 1.4;
+            }
+
+            /* QR placeholder note */
+            .qr-note {
+                text-align: center;
+                color: rgba(255, 255, 255, 0.5);
+                font-size: 0.7rem;
+                margin-top: 16px;
+                font-style: italic;
+            }
+
+            /* Footer */
+            .footer {
+                background: rgba(0, 0, 0, 0.2);
+                padding: 20px 24px;
+                text-align: center;
+            }
+
+            .footer-tagline {
+                color: var(--gold-400);
+                font-size: 0.9rem;
+                font-weight: 700;
+                margin-bottom: 4px;
+            }
+
+            .footer-batch {
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 0.8rem;
+            }
+
+            .footer-date {
+                color: rgba(255, 255, 255, 0.4);
+                font-size: 0.7rem;
+                margin-top: 8px;
+            }
+
+            /* Print styles */
+            @media print {
+                body {
+                    background: white;
+                    padding: 0;
+                }
+
+                .poster {
+                    box-shadow: none;
+                    max-width: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="poster">
+            <div class="header">
+                <div class="badge">📢 Action Required</div>
+                <h1>Batch Masikhay 2026</h1>
+                <p class="subtitle">Graduation Payment</p>
+                <div class="icon-row">🎓</div>
+            </div>
+
+            <div class="content">
+                <!-- Amount -->
+                <div class="amount-card">
+                    <div class="amount-label">Total Contribution</div>
+                    <div class="amount-value">₱3,000</div>
+                    <div class="amount-note">
+                        per intern • 160 interns • ₱480,000 total budget
+                    </div>
+                </div>
+
+                <!-- Payment Scheme -->
+                <div class="scheme-card">
+                    <div class="scheme-title">
+                        💳 Payment Scheme (₱500/month)
+                    </div>
+                    <div class="scheme-grid">
+                        <div class="month-box">
+                            <div class="month">Feb</div>
+                            <div class="amount">₱500</div>
+                        </div>
+                        <div class="month-box">
+                            <div class="month">Mar</div>
+                            <div class="amount">₱500</div>
+                        </div>
+                        <div class="month-box">
+                            <div class="month">Apr</div>
+                            <div class="amount">₱500</div>
+                        </div>
+                        <div class="month-box">
+                            <div class="month">May</div>
+                            <div class="amount">₱500</div>
+                        </div>
+                        <div class="month-box">
+                            <div class="month">Jun</div>
+                            <div class="amount">₱500</div>
+                        </div>
+                        <div class="month-box">
+                            <div class="month">Jul</div>
+                            <div class="amount">₱500</div>
+                        </div>
+                    </div>
+                    <div class="deadline-note">
+                        ⏰ Deadline: End of each month • You may pay in advance
+                    </div>
+                </div>
+
+                <!-- Bank Details -->
+                <div class="bank-card">
+                    <div class="bank-title">🏦 Payment Details</div>
+                    <div class="bank-row">
+                        <span class="label">Bank</span>
+                        <span class="value">PSBANK</span>
+                    </div>
+                    <div class="bank-row">
+                        <span class="label">Account No.</span>
+                        <span class="value">202111003913</span>
+                    </div>
+                    <div class="bank-row">
+                        <span class="label">Account Name</span>
+                        <span class="value name">Joshua Marvin Agawin</span>
+                    </div>
+                    <div class="alt-payment">
+                        Also accepts: GCash / Maya / other e-wallets (same
+                        account holder)
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div class="links-section">
+                    <div class="links-title">🔗 Quick Links</div>
+
+                    <a
+                        href="https://masikhay-graduation-budget-proposal.vercel.app/"
+                        target="_blank"
+                        class="link-card"
+                    >
+                        <div class="link-icon proposal">📄</div>
+                        <div class="link-info">
+                            <div class="link-label">Budget Proposal</div>
+                            <div class="link-url">
+                                masikhay-graduation-budget-proposal.vercel.app
+                            </div>
+                        </div>
+                        <div class="link-arrow">→</div>
+                    </a>
+
+                    <a
+                        href="https://masikhay-graduation-tracker.vercel.app/"
+                        target="_blank"
+                        class="link-card"
+                    >
+                        <div class="link-icon tracker">📊</div>
+                        <div class="link-info">
+                            <div class="link-label">
+                                Payment Tracker (pw: masikhay2026)
+                            </div>
+                            <div class="link-url">
+                                masikhay-graduation-tracker.vercel.app
+                            </div>
+                        </div>
+                        <div class="link-arrow">→</div>
+                    </a>
+
+                    <a
+                        href="https://bit.ly/masikhay-graduation-payment"
+                        target="_blank"
+                        class="link-card"
+                    >
+                        <div class="link-icon form">📝</div>
+                        <div class="link-info">
+                            <div class="link-label">
+                                Submit Proof of Payment
+                            </div>
+                            <div class="link-url">
+                                bit.ly/masikhay-graduation-payment
+                            </div>
+                        </div>
+                        <div class="link-arrow">→</div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="footer-tagline">Patungo sa Higit Pa! 💜</div>
+                <div class="footer-batch">
+                    Graduation Committee • Batch Masikhay 2026
+                </div>
+                <div class="footer-date">First Week of August 2026</div>
+            </div>
         </div>
-        
-        <div class="content">
-            <!-- Amount -->
-            <div class="amount-card">
-                <div class="amount-label">Total Contribution</div>
-                <div class="amount-value">₱3,000</div>
-                <div class="amount-note">per intern • 160 interns • ₱480,000 total budget</div>
-            </div>
-            
-            <!-- Payment Scheme -->
-            <div class="scheme-card">
-                <div class="scheme-title">💳 Payment Scheme (₱500/month)</div>
-                <div class="scheme-grid">
-                    <div class="month-box">
-                        <div class="month">Feb</div>
-                        <div class="amount">₱500</div>
-                    </div>
-                    <div class="month-box">
-                        <div class="month">Mar</div>
-                        <div class="amount">₱500</div>
-                    </div>
-                    <div class="month-box">
-                        <div class="month">Apr</div>
-                        <div class="amount">₱500</div>
-                    </div>
-                    <div class="month-box">
-                        <div class="month">May</div>
-                        <div class="amount">₱500</div>
-                    </div>
-                    <div class="month-box">
-                        <div class="month">Jun</div>
-                        <div class="amount">₱500</div>
-                    </div>
-                    <div class="month-box">
-                        <div class="month">Jul</div>
-                        <div class="amount">₱500</div>
-                    </div>
-                </div>
-                <div class="deadline-note">⏰ Deadline: End of each month • You may pay in advance</div>
-            </div>
-            
-            <!-- Bank Details -->
-            <div class="bank-card">
-                <div class="bank-title">🏦 Payment Details</div>
-                <div class="bank-row">
-                    <span class="label">Bank</span>
-                    <span class="value">PSBANK</span>
-                </div>
-                <div class="bank-row">
-                    <span class="label">Account No.</span>
-                    <span class="value">202111003913</span>
-                </div>
-                <div class="bank-row">
-                    <span class="label">Account Name</span>
-                    <span class="value name">Joshua Marvin Agawin</span>
-                </div>
-                <div class="alt-payment">
-                    Also accepts: GCash / Maya / other e-wallets (same account holder)
-                </div>
-            </div>
-            
-            <!-- Links -->
-            <div class="links-section">
-                <div class="links-title">🔗 Quick Links</div>
-                
-                <a href="https://masikhay-graduation-budget-proposal.vercel.app/" target="_blank" class="link-card">
-                    <div class="link-icon proposal">📄</div>
-                    <div class="link-info">
-                        <div class="link-label">Budget Proposal</div>
-                        <div class="link-url">masikhay-graduation-budget-proposal.vercel.app</div>
-                    </div>
-                    <div class="link-arrow">→</div>
-                </a>
-                
-                <a href="https://masikhay-graduation-tracker.vercel.app/" target="_blank" class="link-card">
-                    <div class="link-icon tracker">📊</div>
-                    <div class="link-info">
-                        <div class="link-label">Payment Tracker (pw: masikhay2026)</div>
-                        <div class="link-url">masikhay-graduation-tracker.vercel.app</div>
-                    </div>
-                    <div class="link-arrow">→</div>
-                </a>
-                
-                <a href="https://bit.ly/masikhay-graduation-payment" target="_blank" class="link-card">
-                    <div class="link-icon form">📝</div>
-                    <div class="link-info">
-                        <div class="link-label">Submit Proof of Payment</div>
-                        <div class="link-url">bit.ly/masikhay-graduation-payment</div>
-                    </div>
-                    <div class="link-arrow">→</div>
-                </a>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <div class="footer-tagline">Patungo sa Higit Pa! 💜</div>
-            <div class="footer-batch">Graduation Committee • Batch Masikhay 2026</div>
-            <div class="footer-date">First Week of August 2026</div>
-        </div>
-    </div>
-</body>
+    </body>
 </html>
